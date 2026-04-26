@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TITCH OTC — Fast. Secure. Reliable Crypto Exchange</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="#home" class="logo" onclick="showPage('home')">
+      <div class="logo-icon">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+          <polygon points="18,2 34,10 34,26 18,34 2,26 2,10" fill="none" stroke="url(#lg1)" stroke-width="2"/>
+          <polygon points="18,8 28,13 28,23 18,28 8,23 8,13" fill="url(#lg2)" opacity="0.15"/>
+          <text x="18" y="23" text-anchor="middle" font-family="Syne" font-weight="800" font-size="11" fill="url(#lg1)">T</text>
+          <defs>
+            <linearGradient id="lg1" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#00f5a0"/>
+              <stop offset="100%" stop-color="#00d9f5"/>
+            </linearGradient>
+            <linearGradient id="lg2" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#00f5a0"/>
+              <stop offset="100%" stop-color="#00d9f5"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <span class="logo-text">TITCH <em>OTC</em></span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#" onclick="showPage('home')">Home</a>
+      <a href="#" onclick="showPage('sell')">Sell Crypto</a>
+      <a href="#" onclick="showPage('buy')">Buy Crypto</a>
+      <a href="#" onclick="showPage('track')">Track Order</a>
+      <a href="#" onclick="showPage('about')">About</a>
+      <a href="#" onclick="showPage('contact')">Contact</a>
+
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ===== PAGE: HOME ===== -->
+<div class="page active" id="page-home">
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="hero-bg">
+      <div class="grid-overlay"></div>
+      <div class="glow-orb orb1"></div>
+      <div class="glow-orb orb2"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge"><span class="dot"></span> Live & Active</div>
+      <h1 class="hero-title">Fast. Secure.<br/><span class="gradient-text">Reliable Crypto Exchange</span></h1>
+      <p class="hero-sub">Kenya's trusted OTC desk for USDT trading via M-Pesa & Bank. No KYC delays. Direct. Personal.</p>
+      <div class="hero-btns">
+        <button class="btn btn-primary" onclick="showPage('sell')"><i class="fa fa-arrow-up-from-bracket"></i> Sell Crypto</button>
+        <button class="btn btn-outline" onclick="showPage('buy')"><i class="fa fa-arrow-down-to-bracket"></i> Buy Crypto</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num" id="statTrades">1,240+</span><span class="stat-label">Trades Done</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Completion Rate</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">&lt; 30min</span><span class="stat-label">Avg. Processing</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="rate-card floating">
+        <div class="rc-header"><span class="rc-dot buy"></span> Live Rates (per USDT)</div>
+        <div class="rc-row"><span>1–5 USDT Buy</span><span class="rc-rate green">KES <b id="hT1buy">—</b></span></div>
+        <div class="rc-row"><span>1–5 USDT Sell</span><span class="rc-rate red">KES <b id="hT1sell">—</b></span></div>
+        <div class="rc-row"><span>31+ USDT Buy</span><span class="rc-rate green">KES <b id="hT5buy">—</b></span></div>
+        <div class="rc-row"><span>31+ USDT Sell</span><span class="rc-rate red">KES <b id="hT5sell">—</b></span></div>
+        <div class="rc-footer">↓ See full rate table below</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rates Section -->
+  <section class="rates-section" id="rates">
+    <div class="container">
+      <div class="section-label">LIVE MARKET RATES</div>
+      <h2 class="section-title">Today's Rates</h2>
+
+      <!-- Daily Update Banner -->
+      <div class="daily-update-banner" id="dailyUpdateBanner" style="display:none">
+        <div class="dub-icon"><i class="fa fa-bullhorn"></i></div>
+        <div class="dub-content">
+          <span class="dub-label">Today's Update</span>
+          <p id="dailyUpdateText"></p>
+          <span class="dub-time" id="dailyUpdateTime"></span>
+        </div>
+      </div>
+
+      <!-- Tiered Rates Table -->
+      <div class="tiered-rates-wrap">
+        <div class="tiered-header">
+          <span>Amount (USDT)</span>
+          <span class="green">Buy Rate (KES)</span>
+          <span class="red">Sell Rate (KES)</span>
+        </div>
+        <div class="tiered-row" id="tier1row">
+          <span class="tier-range">1 – 5 USDT</span>
+          <span class="green" id="t1buy">—</span>
+          <span class="red" id="t1sell">—</span>
+        </div>
+        <div class="tiered-row" id="tier2row">
+          <span class="tier-range">6 – 11 USDT</span>
+          <span class="green" id="t2buy">—</span>
+          <span class="red" id="t2sell">—</span>
+        </div>
+        <div class="tiered-row" id="tier3row">
+          <span class="tier-range">12 – 18 USDT</span>
+          <span class="green" id="t3buy">—</span>
+          <span class="red" id="t3sell">—</span>
+        </div>
+        <div class="tiered-row" id="tier4row">
+          <span class="tier-range">19 – 30 USDT</span>
+          <span class="green" id="t4buy">—</span>
+          <span class="red" id="t4sell">—</span>
+        </div>
+        <div class="tiered-row highlight-row" id="tier5row">
+          <span class="tier-range">31+ USDT <span class="best-tag">BEST</span></span>
+          <span class="green" id="t5buy">—</span>
+          <span class="red" id="t5sell">—</span>
+        </div>
+      </div>
+
+      <div class="rates-info-row">
+        <div class="rt-chip"><i class="fa fa-clock"></i> Processing: ~15–30 min</div>
+        <div class="rt-chip"><i class="fa fa-mobile-screen"></i> M-Pesa & Bank</div>
+        <div class="rt-chip"><i class="fa fa-rotate"></i> Rates updated daily</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="hiw-section">
+    <div class="container">
+      <div class="section-label">SIMPLE PROCESS</div>
+      <h2 class="section-title">How It Works</h2>
+      <div class="hiw-tabs">
+        <button class="tab-btn active" onclick="switchTab('sell-tab')">Selling Crypto</button>
+        <button class="tab-btn" onclick="switchTab('buy-tab')">Buying Crypto</button>
+      </div>
+      <div class="hiw-grid" id="sell-tab">
+        <div class="hiw-step"><div class="step-num">01</div><div class="step-icon"><i class="fa fa-file-lines"></i></div><h3>Submit Request</h3><p>Fill out the sell form with your details and the amount of USDT you want to sell.</p></div>
+        <div class="hiw-arrow"><i class="fa fa-chevron-right"></i></div>
+        <div class="hiw-step"><div class="step-num">02</div><div class="step-icon"><i class="fa fa-paper-plane"></i></div><h3>Send Crypto</h3><p>Transfer USDT to our wallet address shown after submission, then upload your proof screenshot.</p></div>
+        <div class="hiw-arrow"><i class="fa fa-chevron-right"></i></div>
+        <div class="hiw-step"><div class="step-num">03</div><div class="step-icon"><i class="fa fa-circle-check"></i></div><h3>Receive Payment</h3><p>Once confirmed, we send KES to your M-Pesa or bank account within 30 minutes.</p></div>
+      </div>
+      <div class="hiw-grid hidden" id="buy-tab">
+        <div class="hiw-step"><div class="step-num">01</div><div class="step-icon"><i class="fa fa-wallet"></i></div><h3>Submit Request</h3><p>Fill out the buy form with your wallet/UID and the amount in KES or USDT.</p></div>
+        <div class="hiw-arrow"><i class="fa fa-chevron-right"></i></div>
+        <div class="hiw-step"><div class="step-num">02</div><div class="step-icon"><i class="fa fa-mobile-screen"></i></div><h3>Send Payment</h3><p>Send the exact KES amount via M-Pesa to our number, then upload your M-Pesa screenshot.</p></div>
+        <div class="hiw-arrow"><i class="fa fa-chevron-right"></i></div>
+        <div class="hiw-step"><div class="step-num">03</div><div class="step-icon"><i class="fa fa-coins"></i></div><h3>Receive Crypto</h3><p>After payment is verified, USDT is sent directly to your wallet or exchange account.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Supported Platforms -->
+  <section class="platforms-section">
+    <div class="container">
+      <div class="section-label">SUPPORTED PLATFORMS</div>
+      <h2 class="section-title">We Work With</h2>
+      <div class="platforms-grid">
+        <div class="platform-card"><div class="platform-logo binance">B</div><span>Binance</span></div>
+        <div class="platform-card"><div class="platform-logo okx">OKX</div><span>OKX</span></div>
+        <div class="platform-card"><div class="platform-logo bybit">BY</div><span>Bybit</span></div>
+        <div class="platform-card"><div class="platform-logo trc20">TRC</div><span>TRC20 Wallet</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Section -->
+  <section class="trust-section">
+    <div class="container">
+      <div class="trust-grid">
+        <div class="trust-card"><div class="trust-icon"><i class="fa fa-bolt"></i></div><h3>Fast Transactions</h3><p>Most transactions completed within 15–30 minutes after payment confirmation.</p></div>
+        <div class="trust-card"><div class="trust-icon"><i class="fa fa-shield-halved"></i></div><h3>Secure Process</h3><p>Your funds and data are handled with full discretion and security at every step.</p></div>
+        <div class="trust-card"><div class="trust-icon"><i class="fa fa-handshake"></i></div><h3>Trusted Service</h3><p>Over 1,200 completed transactions with 100% completion rate and 5-star reviews.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews -->
+  <section class="reviews-section">
+    <div class="container">
+      <div class="section-label">WHAT CLIENTS SAY</div>
+      <h2 class="section-title">Reviews</h2>
+      <div class="reviews-grid" id="reviewsGrid"></div>
+      <div class="review-form-card">
+        <h3>Leave a Review</h3>
+        <div class="star-input" id="starInput">
+          <i class="fa fa-star" data-star="1"></i>
+          <i class="fa fa-star" data-star="2"></i>
+          <i class="fa fa-star" data-star="3"></i>
+          <i class="fa fa-star" data-star="4"></i>
+          <i class="fa fa-star" data-star="5"></i>
+        </div>
+        <input type="text" id="reviewName" placeholder="Your name (optional)" class="form-input"/>
+        <textarea id="reviewText" placeholder="Write your review..." class="form-input form-textarea"></textarea>
+        <button class="btn btn-primary" onclick="submitReview()">Submit Review</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Warning Banner -->
+  <section class="warning-section">
+    <div class="container">
+      <div class="warning-card">
+        <i class="fa fa-triangle-exclamation"></i>
+        <div>
+          <strong>Security Notice</strong>
+          <p>Only send funds to wallet details provided AFTER submitting your request. We are not responsible for transactions sent to incorrect or unverified addresses. Always double-check before sending.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ===== PAGE: SELL CRYPTO ===== -->
+<div class="page" id="page-sell">
+  <div class="page-header">
+    <div class="container">
+      <div class="section-label">SELL CRYPTO</div>
+      <h2 class="section-title">Sell Your USDT for KES</h2>
+      <p class="page-sub">Get paid to your M-Pesa or Bank account</p>
+    </div>
+  </div>
+  <div class="container form-container">
+    <div class="form-card" id="sellFormCard">
+      <div class="form-step-indicator">
+        <div class="fsi active" id="fsi1">1 <span>Details</span></div>
+        <div class="fsi-line"></div>
+        <div class="fsi" id="fsi2">2 <span>Amount</span></div>
+        <div class="fsi-line"></div>
+        <div class="fsi" id="fsi3">3 <span>Send</span></div>
+      </div>
+
+      <!-- Step 1 -->
+      <div class="form-step" id="sellStep1">
+        <h3>Step 1: Your Details</h3>
+        <div class="form-group">
+          <label>Select Exchange / Wallet</label>
+          <div class="exchange-picker" id="sellExchangePicker">
+            <div class="ep-option" data-val="Binance" onclick="selectExchange(this,'sell')">Binance</div>
+            <div class="ep-option" data-val="OKX" onclick="selectExchange(this,'sell')">OKX</div>
+            <div class="ep-option" data-val="Bybit" onclick="selectExchange(this,'sell')">Bybit</div>
+            <div class="ep-option" data-val="External Wallet" onclick="selectExchange(this,'sell')">External Wallet</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Payout Method</label>
+          <div class="toggle-group">
+            <button class="toggle-btn active" id="payMpesa" onclick="selectPayout('mpesa')">M-Pesa</button>
+            <button class="toggle-btn" id="payBank" onclick="selectPayout('bank')">Bank Transfer</button>
+          </div>
+        </div>
+        <div id="mpesaFields">
+          <div class="form-group"><label>Full Name</label><input type="text" id="sellFullName" class="form-input" placeholder="John Doe"/></div>
+          <div class="form-group"><label>M-Pesa Registered Name</label><input type="text" id="sellMpesaName" class="form-input" placeholder="As shown on M-Pesa"/></div>
+          <div class="form-group"><label>Phone Number</label><input type="tel" id="sellPhone" class="form-input" placeholder="07XXXXXXXX"/></div>
+        </div>
+        <div id="bankFields" class="hidden">
+          <div class="form-group"><label>Full Name</label><input type="text" id="sellBankFullName" class="form-input" placeholder="John Doe"/></div>
+          <div class="form-group"><label>Bank Name</label><input type="text" id="sellBankName" class="form-input" placeholder="e.g. Equity Bank"/></div>
+          <div class="form-group"><label>Account Number</label><input type="text" id="sellAccNum" class="form-input" placeholder="Account Number"/></div>
+          <div class="form-group"><label>Account Name</label><input type="text" id="sellAccName" class="form-input" placeholder="Name on account"/></div>
+        </div>
+        <button class="btn btn-primary full-width" onclick="sellNext1()">Continue <i class="fa fa-arrow-right"></i></button>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="form-step hidden" id="sellStep2">
+        <h3>Step 2: Enter Amount</h3>
+        <div class="rate-badge">Current Rate: <strong>KES <span id="sellRateDisplay">164.00</span></strong> per USDT</div>
+        <div class="form-group">
+          <label>USDT Amount</label>
+          <div class="amount-input-wrap">
+            <input type="number" id="sellUsdt" class="form-input" placeholder="0.00" oninput="calcSell()"/>
+            <span class="amount-suffix">USDT</span>
+          </div>
+        </div>
+        <div class="calc-result">
+          <span>You will receive</span>
+          <span class="calc-amount" id="sellKesResult">KES 0.00</span>
+        </div>
+        <div class="form-row">
+          <button class="btn btn-outline" onclick="sellBack1()"><i class="fa fa-arrow-left"></i> Back</button>
+          <button class="btn btn-primary" onclick="sellNext2()">Continue <i class="fa fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="form-step hidden" id="sellStep3">
+        <h3>Step 3: Send Crypto</h3>
+        <div class="warning-inline"><i class="fa fa-triangle-exclamation"></i> Only send to the details below. Do not send to any other address.</div>
+        <div class="receive-details">
+          <div class="rd-row">
+            <label>TRC20 Wallet Address</label>
+            <div class="copy-field">
+              <input type="text" readonly id="adminTrc20Display" class="form-input readonly-field"/>
+              <button class="copy-btn" onclick="copyField('adminTrc20Display')"><i class="fa fa-copy"></i></button>
+            </div>
+          </div>
+          <div class="rd-row" id="uidRow">
+            <label>Exchange UID (<span id="uidLabel">Binance</span>)</label>
+            <div class="copy-field">
+              <input type="text" readonly id="adminUidDisplay" class="form-input readonly-field"/>
+              <button class="copy-btn" onclick="copyField('adminUidDisplay')"><i class="fa fa-copy"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Upload Screenshot Proof</label>
+          <div class="file-drop" id="sellFileDrop" onclick="document.getElementById('sellProofFile').click()">
+            <i class="fa fa-cloud-arrow-up"></i>
+            <span>Click to upload screenshot</span>
+            <input type="file" id="sellProofFile" accept="image/*" style="display:none" onchange="fileSelected(this,'sellFileLabel')"/>
+            <span class="file-name" id="sellFileLabel">No file chosen</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <button class="btn btn-outline" onclick="sellBack2()"><i class="fa fa-arrow-left"></i> Back</button>
+          <button class="btn btn-primary" onclick="submitSell()">Submit Order <i class="fa fa-check"></i></button>
+        </div>
+      </div>
+
+      <!-- Success -->
+      <div class="form-step hidden" id="sellSuccess">
+        <div class="success-box">
+          <div class="success-icon"><i class="fa fa-circle-check"></i></div>
+          <h3>Order Submitted!</h3>
+          <p>Your transaction is pending confirmation.</p>
+          <div class="txid-display">
+            <label>Transaction ID</label>
+            <div class="copy-field">
+              <input type="text" readonly id="sellTxId" class="form-input readonly-field"/>
+              <button class="copy-btn" onclick="copyField('sellTxId')"><i class="fa fa-copy"></i></button>
+            </div>
+          </div>
+          <div class="status-badge pending">● Pending Confirmation</div>
+          <button class="btn btn-outline" onclick="showPage('track')">Track Order</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE: BUY CRYPTO ===== -->
+<div class="page" id="page-buy">
+  <div class="page-header">
+    <div class="container">
+      <div class="section-label">BUY CRYPTO</div>
+      <h2 class="section-title">Buy USDT with KES</h2>
+      <p class="page-sub">Send M-Pesa, receive USDT to your wallet</p>
+    </div>
+  </div>
+  <div class="container form-container">
+    <div class="form-card" id="buyFormCard">
+      <div class="form-step-indicator">
+        <div class="fsi active" id="bfsi1">1 <span>Wallet</span></div>
+        <div class="fsi-line"></div>
+        <div class="fsi" id="bfsi2">2 <span>Amount</span></div>
+        <div class="fsi-line"></div>
+        <div class="fsi" id="bfsi3">3 <span>Pay</span></div>
+      </div>
+
+      <!-- Step 1 -->
+      <div class="form-step" id="buyStep1">
+        <h3>Step 1: Your Wallet Details</h3>
+        <div class="form-group">
+          <label>Select Exchange / Wallet</label>
+          <div class="exchange-picker" id="buyExchangePicker">
+            <div class="ep-option" data-val="Binance" onclick="selectExchange(this,'buy')">Binance</div>
+            <div class="ep-option" data-val="OKX" onclick="selectExchange(this,'buy')">OKX</div>
+            <div class="ep-option" data-val="Bybit" onclick="selectExchange(this,'buy')">Bybit</div>
+            <div class="ep-option" data-val="External Wallet" onclick="selectExchange(this,'buy')">External Wallet</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label id="buyWalletLabel">Binance UID / Wallet Address</label>
+          <input type="text" id="buyWalletAddr" class="form-input" placeholder="Enter your UID or wallet address"/>
+        </div>
+        <div class="form-group">
+          <label>Confirm Address / UID</label>
+          <input type="text" id="buyWalletConfirm" class="form-input" placeholder="Re-enter to confirm"/>
+        </div>
+        <button class="btn btn-primary full-width" onclick="buyNext1()">Continue <i class="fa fa-arrow-right"></i></button>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="form-step hidden" id="buyStep2">
+        <h3>Step 2: Enter Amount</h3>
+        <div class="rate-badge">Current Rate: <strong>KES <span id="buyRateDisplay">168.50</span></strong> per USDT</div>
+        <div class="toggle-group" style="margin-bottom:1rem">
+          <button class="toggle-btn active" id="inputKes" onclick="selectBuyInput('kes')">Enter KES</button>
+          <button class="toggle-btn" id="inputUsdt" onclick="selectBuyInput('usdt')">Enter USDT</button>
+        </div>
+        <div class="form-group" id="kesInputGroup">
+          <label>Amount in KES</label>
+          <div class="amount-input-wrap">
+            <input type="number" id="buyKes" class="form-input" placeholder="0.00" oninput="calcBuyFromKes()"/>
+            <span class="amount-suffix">KES</span>
+          </div>
+        </div>
+        <div class="form-group hidden" id="usdtInputGroup">
+          <label>Amount in USDT</label>
+          <div class="amount-input-wrap">
+            <input type="number" id="buyUsdt" class="form-input" placeholder="0.00" oninput="calcBuyFromUsdt()"/>
+            <span class="amount-suffix">USDT</span>
+          </div>
+        </div>
+        <div class="calc-result">
+          <span id="buyCalcLabel">You will receive</span>
+          <span class="calc-amount" id="buyResult">0.00 USDT</span>
+        </div>
+        <div class="form-row">
+          <button class="btn btn-outline" onclick="buyBack1()"><i class="fa fa-arrow-left"></i> Back</button>
+          <button class="btn btn-primary" onclick="buyNext2()">Continue <i class="fa fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="form-step hidden" id="buyStep3">
+        <h3>Step 3: Make Payment</h3>
+        <div class="payment-instructions">
+          <i class="fa fa-circle-info"></i>
+          <p>Send the <strong>exact amount</strong> to the M-Pesa number below, then upload your payment screenshot.</p>
+        </div>
+        <div class="receive-details">
+          <div class="rd-row">
+            <label>M-Pesa Number</label>
+            <div class="copy-field">
+              <input type="text" readonly id="adminMpesaDisplay" class="form-input readonly-field"/>
+              <button class="copy-btn" onclick="copyField('adminMpesaDisplay')"><i class="fa fa-copy"></i></button>
+            </div>
+          </div>
+          <div class="rd-row">
+            <label>Exact Amount to Send</label>
+            <div class="copy-field">
+              <input type="text" readonly id="buyExactAmount" class="form-input readonly-field"/>
+              <button class="copy-btn" onclick="copyField('buyExactAmount')"><i class="fa fa-copy"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Upload M-Pesa Screenshot</label>
+          <div class="file-drop" onclick="document.getElementById('buyProofFile').click()">
+            <i class="fa fa-cloud-arrow-up"></i>
+            <span>Click to upload screenshot</span>
+            <input type="file" id="buyProofFile" accept="image/*" style="display:none" onchange="fileSelected(this,'buyFileLabel')"/>
+            <span class="file-name" id="buyFileLabel">No file chosen</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <button class="btn btn-outline" onclick="buyBack2()"><i class="fa fa-arrow-left"></i> Back</button>
+          <button class="btn btn-primary" onclick="submitBuy()">Submit Order <i class="fa fa-check"></i></button>
+        </div>
+      </div>
+
+      <!-- Success -->
+      <div class="form-step hidden" id="buySuccess">
+        <div class="success-box">
+          <div class="success-icon"><i class="fa fa-circle-check"></i></div>
+          <h3>Order Submitted!</h3>
+          <p>Your order is being processed.</p>
+          <div class="txid-display">
+            <label>Transaction ID</label>
+            <div class="copy-field">
+              <input type="text" readonly id="buyTxId" class="form-input readonly-field"/>
+              <button class="copy-btn" onclick="copyField('buyTxId')"><i class="fa fa-copy"></i></button>
+            </div>
+          </div>
+          <div class="status-badge pending">● Pending Confirmation</div>
+          <button class="btn btn-outline" onclick="showPage('track')">Track Order</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE: TRACK ORDER ===== -->
+<div class="page" id="page-track">
+  <div class="page-header">
+    <div class="container">
+      <div class="section-label">ORDER TRACKING</div>
+      <h2 class="section-title">Track Your Order</h2>
+      <p class="page-sub">Enter your Transaction ID or Phone Number</p>
+    </div>
+  </div>
+  <div class="container form-container">
+    <div class="form-card">
+      <div class="form-group">
+        <label>Transaction ID or Phone Number</label>
+        <input type="text" id="trackInput" class="form-input" placeholder="e.g. TTC-2024-XXXXX or 07XXXXXXXX"/>
+      </div>
+      <button class="btn btn-primary full-width" onclick="trackOrder()">Search <i class="fa fa-magnifying-glass"></i></button>
+      <div id="trackResult" class="track-result hidden"></div>
+    </div>
+    <div class="all-orders-wrap">
+      <h3>Your Recent Orders</h3>
+      <div id="ordersList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE: ABOUT ===== -->
+<div class="page" id="page-about">
+  <div class="page-header">
+    <div class="container">
+      <div class="section-label">ABOUT US</div>
+      <h2 class="section-title">Who We Are</h2>
+    </div>
+  </div>
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text">
+        <p class="about-lead">TITCH OTC is a Nairobi-based crypto trading desk offering fast, secure, and reliable buying and selling of digital assets.</p>
+        <p>We specialize in USDT transactions across major platforms such as Binance, OKX, and Bybit, providing a seamless experience for both beginners and experienced traders.</p>
+        <p>Our process is designed to be straightforward — no complex KYC forms, no long waiting periods. Just submit your request, make your payment, and we handle the rest with speed and professionalism.</p>
+        <div class="about-values">
+          <div class="av-item"><i class="fa fa-bolt"></i> Fast Execution</div>
+          <div class="av-item"><i class="fa fa-shield-halved"></i> Secure Process</div>
+          <div class="av-item"><i class="fa fa-user-check"></i> Personal Service</div>
+          <div class="av-item"><i class="fa fa-map-pin"></i> Nairobi Based</div>
+        </div>
+      </div>
+      <div class="about-visual">
+        <div class="about-card">
+          <div class="ac-stat"><span>1,240+</span><label>Transactions</label></div>
+          <div class="ac-stat"><span>100%</span><label>Completion</label></div>
+          <div class="ac-stat"><span>5★</span><label>Rating</label></div>
+          <div class="ac-stat"><span>2+</span><label>Years Active</label></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE: CONTACT ===== -->
+<div class="page" id="page-contact">
+  <div class="page-header">
+    <div class="container">
+      <div class="section-label">GET IN TOUCH</div>
+      <h2 class="section-title">Contact Us</h2>
+    </div>
+  </div>
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-cards">
+        <div class="contact-card"><div class="cc-icon"><i class="fa fa-phone"></i></div><h4>Phone / WhatsApp</h4><p id="contactPhone">+254 700 000 000</p></div>
+        <div class="contact-card"><div class="cc-icon"><i class="fa fa-envelope"></i></div><h4>Email</h4><p>titchotc@gmail.com</p></div>
+        <div class="contact-card"><div class="cc-icon"><i class="fa fa-map-pin"></i></div><h4>Location</h4><p>Nairobi, Kenya</p></div>
+        <div class="contact-card"><div class="cc-icon"><i class="fa fa-clock"></i></div><h4>Hours</h4><p>Mon–Sun: 8AM – 10PM</p></div>
+      </div>
+      <div class="contact-note">
+        <div class="warning-card">
+          <i class="fa fa-triangle-exclamation"></i>
+          <div>
+            <strong>Important Reminder</strong>
+            <p>Only send funds to wallet details provided after submitting your request on our platform. Always verify details before transferring.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo-text">TITCH <em>OTC</em></span>
+        <p>Kenya's trusted crypto OTC desk. Fast, secure, and reliable USDT trading via M-Pesa & Bank.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <a href="#" onclick="showPage('sell')">Sell Crypto</a>
+        <a href="#" onclick="showPage('buy')">Buy Crypto</a>
+        <a href="#" onclick="showPage('track')">Track Order</a>
+        <a href="#" onclick="showPage('about')">About</a>
+      </div>
+      <div class="footer-links">
+        <h4>Support</h4>
+        <a href="#" onclick="showPage('contact')">Contact</a>
+        <a href="#">WhatsApp</a>
+        <a href="#">Telegram</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 TITCH OTC. All rights reserved. | Nairobi, Kenya</p>
+      <p class="footer-warning">⚠ Only send funds to addresses provided after order submission.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
